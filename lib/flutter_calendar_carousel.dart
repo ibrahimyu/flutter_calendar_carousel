@@ -334,56 +334,62 @@ class _CalendarState<T extends EventInterface>
       height: widget.height,
       child: Column(
         children: <Widget>[
-          CalendarHeader(
-            showHeader: widget.showHeader,
-            headerMargin: widget.headerMargin,
-            headerTitle: headerText != null
-                ? headerText
-                : widget.weekFormat
-                    ? '${_localeDate.format(this._weeks[this._pageNum].first)}'
-                    : '${_localeDate.format(this._dates[this._pageNum])}',
-            headerTextStyle: widget.headerTextStyle,
-            showHeaderButtons: widget.showHeaderButton,
-            headerIconColor: widget.iconColor,
-            leftButtonIcon: widget.leftButtonIcon,
-            rightButtonIcon: widget.rightButtonIcon,
-            onLeftButtonPressed: () {
-              widget.onLeftArrowPressed?.call();
+          SizedBox(
+            width: widget.width,
+            child: CalendarHeader(
+              showHeader: widget.showHeader,
+              headerMargin: widget.headerMargin,
+              headerTitle: headerText != null
+                  ? headerText
+                  : widget.weekFormat
+                      ? '${_localeDate.format(this._weeks[this._pageNum].first)}'
+                      : '${_localeDate.format(this._dates[this._pageNum])}',
+              headerTextStyle: widget.headerTextStyle,
+              showHeaderButtons: widget.showHeaderButton,
+              headerIconColor: widget.iconColor,
+              leftButtonIcon: widget.leftButtonIcon,
+              rightButtonIcon: widget.rightButtonIcon,
+              onLeftButtonPressed: () {
+                widget.onLeftArrowPressed?.call();
 
-              if (this._pageNum > 0) _setDate(this._pageNum - 1);
-            },
-            onRightButtonPressed: () {
-              widget.onRightArrowPressed?.call();
+                if (this._pageNum > 0) _setDate(this._pageNum - 1);
+              },
+              onRightButtonPressed: () {
+                widget.onRightArrowPressed?.call();
 
-              if (widget.weekFormat) {
-                if (this._weeks.length - 1 > this._pageNum)
-                  _setDate(this._pageNum + 1);
-              } else {
-                if (this._dates.length - 1 > this._pageNum)
-                  _setDate(this._pageNum + 1);
-              }
-            },
-            onHeaderTitlePressed: widget.headerTitleTouchable
-                ? () {
-                    final onHeaderTitlePressed = widget.onHeaderTitlePressed;
-                    if (onHeaderTitlePressed != null) {
-                      onHeaderTitlePressed();
-                    } else {
-                      _selectDateFromPicker();
+                if (widget.weekFormat) {
+                  if (this._weeks.length - 1 > this._pageNum)
+                    _setDate(this._pageNum + 1);
+                } else {
+                  if (this._dates.length - 1 > this._pageNum)
+                    _setDate(this._pageNum + 1);
+                }
+              },
+              onHeaderTitlePressed: widget.headerTitleTouchable
+                  ? () {
+                      final onHeaderTitlePressed = widget.onHeaderTitlePressed;
+                      if (onHeaderTitlePressed != null) {
+                        onHeaderTitlePressed();
+                      } else {
+                        _selectDateFromPicker();
+                      }
                     }
-                  }
-                : null,
+                  : null,
+            ),
           ),
-          WeekdayRow(
-            firstDayOfWeek,
-            widget.customWeekDayBuilder,
-            showWeekdays: widget.showWeekDays,
-            weekdayFormat: widget.weekDayFormat,
-            weekdayMargin: widget.weekDayMargin,
-            weekdayPadding: widget.weekDayPadding,
-            weekdayBackgroundColor: widget.weekDayBackgroundColor,
-            weekdayTextStyle: widget.weekdayTextStyle,
-            localeDate: _localeDate,
+          SizedBox(
+            width: widget.width,
+            child: WeekdayRow(
+              firstDayOfWeek,
+              widget.customWeekDayBuilder,
+              showWeekdays: widget.showWeekDays,
+              weekdayFormat: widget.weekDayFormat,
+              weekdayMargin: widget.weekDayMargin,
+              weekdayPadding: widget.weekDayPadding,
+              weekdayBackgroundColor: widget.weekDayBackgroundColor,
+              weekdayTextStyle: widget.weekdayTextStyle,
+              localeDate: _localeDate,
+            ),
           ),
           Expanded(
               child: PageView.builder(
@@ -613,7 +619,7 @@ class _CalendarState<T extends EventInterface>
         children: <Widget>[
           Positioned(
             child: Container(
-              width: double.infinity,
+              width: widget.width,
               height: double.infinity,
               child: GridView.count(
                 physics: widget.customGridViewPhysics,
@@ -725,7 +731,7 @@ class _CalendarState<T extends EventInterface>
           children: <Widget>[
             Positioned(
               child: Container(
-                width: double.infinity,
+                width: widget.width,
                 height: double.infinity,
                 child: GridView.count(
                   physics: widget.customGridViewPhysics,
@@ -1009,7 +1015,7 @@ class _CalendarState<T extends EventInterface>
                 right: padding - offset,
                 bottom: padding - offset,
               ),
-              width: double.infinity,
+              width: widget.width,
               height: double.infinity,
               child: markedDateIconBuilder(event),
             )));
